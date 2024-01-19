@@ -1,1 +1,1 @@
-print("Hello")
+print(bool("Hello"))
