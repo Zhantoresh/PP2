@@ -1,3 +1,2 @@
-x = 5
-y = "John"
-print(x + y)
+for x in "banana":
+  print(x)
