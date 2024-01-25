@@ -1,3 +1,5 @@
+#Use the clear method to empty the car dictionary.
+
 car =	{
   "brand": "Ford",
   "model": "Mustang",

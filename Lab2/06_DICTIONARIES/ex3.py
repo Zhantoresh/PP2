@@ -1,3 +1,5 @@
+#Add the key/value pair "color" : "red" to the car dictionary.
+
 car =	{
   "brand": "Ford",
   "model": "Mustang",
