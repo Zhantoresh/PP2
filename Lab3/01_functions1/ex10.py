@@ -12,6 +12,6 @@ def unique(num_list):
     return arr
 
 nums = input("Enter the nums:")
-num_list = [int(elem) for elem in nums.split()]
+num_list = nums.split()
 res = unique(num_list)
 print(res)

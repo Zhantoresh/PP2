@@ -11,12 +11,9 @@ def is_prime(num):
             return False
     return True
 
-def filter_prime(num_list):
-    prime_list = [num for num in num_list if is_prime(num)]
-    return prime_list
+arr = (input("Enter the elements of list:"))
+numbers = arr.split()
+result = [x for x in numbers if is_prime(int(x)) ]
+print("Prime numbers are:", result)
 
-user_input = input("Enter a list of numbers separated by spaces: ")
-numbers = [int(num) for num in user_input.split()]
-prime_numbers = filter_prime(numbers)
-print("Prime numbers:", prime_numbers)
 
