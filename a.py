@@ -1,2 +1,9 @@
-x = 5
-print(complex(5))
+
+fruits = ["apple", "banana", "cherry"]
+for x in fruits:
+  if x == "banana":
+
+    
+    break
+
+  print(x)

@@ -130,6 +130,7 @@ print(thislist)
 #29
 thislist = ["apple", "banana", "cherry"]
 del thislist
+print(thislist)
 
 #30
 thislist = ["apple", "banana", "cherry"]
