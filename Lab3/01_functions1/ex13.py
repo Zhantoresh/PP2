@@ -21,18 +21,24 @@ Good job, KBTU! You guessed my number in 3 guesses!
 """
 
 import random
+def guess_the_number():
+    print("Hello! What is your name?")
+    name = input()
+    print(f"Well, {name}, I am thinking of a number between 1 and 20.")
+    secret_number = random.randint(1, 20)
+    guesses_taken = 0
 
-def find_num_random(rand_num, count):
-    count += 1
-    num = int(input('Take a guess.\n'))
-    if num == rand_num:
-        print('Good job, KBTU! You guessed my number in', count, 'guesses!')
-        return
-    print('\nYour guess is too low.')
-    return find_num_random(rand_num, count)
+    while True:
+        print("Take a guess.")
+        guess = int(input())
+        guesses_taken += 1
+        
+        if guess < secret_number:
+            print("Your guess is too low.")
+        elif guess > secret_number:
+            print("Your guess is too high.")
+        else:
+            print(f"Good job, {name}! You guessed my number in {guesses_taken} guesses!")
+            break
 
-name = input('Hello! What is your name?\n')
-number = random.randint(1, 20)
-count = 0
-print('Well,', name, ', I am thinking of a number between 1 and 20.\n')
-find_num_random(number, count)
+guess_the_number()
