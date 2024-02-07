@@ -8,16 +8,12 @@ spy_game([1,0,2,4,0,5,7]) --> True
 spy_game([1,7,2,0,4,5,0]) --> False
 """
 
-def spy_game(num_list):
-    sequence = [0, 0, 7]
-    seq_index = 0
-    for num in num_list:
-        if num == sequence[seq_index]:
-            seq_index += 1
-            if seq_index == len(sequence):
-                return True
+def spy(nums_list): 
+    for i in range(len(nums_list) - 1):
+        if nums_list[i] == '0' and nums_list[i + 1] == '0' and nums_list[i+2]=='7': 
+            return True
     return False
 
-nums = input("Enter numbers of list separated by spaces: ")
-num_list = [int(elem) for elem in nums.split()] 
-print(spy_game(num_list))
+nums = input("Enter a list of numbers separated by space: ")
+nums_list = nums.split()
+print(spy(nums_list))
