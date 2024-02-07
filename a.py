@@ -1,9 +1,13 @@
-def spy(nums_list): 
-    for i in range(len(nums_list) - 1):
-        if nums_list[i] == '0' and nums_list[i + 1] == '0' and nums_list[i+2]=='7': 
-            return True
-    return False
+def is_palindrome(word):
+    word = word.replace(" ", "").lower()
+    return word == word[::-1]
 
-nums = input("Enter a list of numbers separated by space: ")
-nums_list = nums.split()
-print(spy(nums_list))
+
+phrase = input("Enter a phrase: ")
+if is_palindrome(phrase):
+    print("The phrase is a palindrome.")
+else:
+    print("The phrase is not a palindrome.")
+
+
+
