@@ -19,8 +19,8 @@ Take a guess.
 
 Good job, KBTU! You guessed my number in 3 guesses!
 """
-
 import random
+
 def guess_the_number():
     print("Hello! What is your name?")
     name = input()
@@ -41,4 +41,7 @@ def guess_the_number():
             print(f"Good job, {name}! You guessed my number in {guesses_taken} guesses!")
             break
 
-guess_the_number()
+# Проверяем, является ли текущий модуль основным
+if __name__ == "__main__":
+    # Если текущий модуль основной, то вызываем функцию guess_the_number()
+    guess_the_number()
