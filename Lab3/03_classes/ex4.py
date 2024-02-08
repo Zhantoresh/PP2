@@ -8,29 +8,30 @@ a method dist that computes the distance between 2 points
 """
 import math
 
-class Point():
-    def __init__(self, x, y):
+class Point:
+    def __init__(self, x=0, y=0):
         self.x = x
         self.y = y
 
     def show(self):
-        print(f'x={self.x}  y={self.y}')
+        print(f"Coordinates: ({self.x}, {self.y})")
 
-    def move(self, newx, newy):
-        self.x = newx
-        self.y = newy
+    def move(self, jana_x, jana_y):
+        self.x = jana_x
+        self.y = jana_y
 
-    def dist(self, other_point):
-        return math.sqrt((other_point.x - self.x)**2 + (other_point.y - self.y)**2)
-    
+    def dist(self, ot):
+        dis = math.sqrt((self.x - ot.x)**2 + (self.y - ot.y)**2)
+        return dis
 
-p1 = Point(2, 4)
-p2 = Point(6, 8)
+point1 = Point(1, 5)
+point2 = Point(3, 8)
 
-p1.show()
-p2.show()
+point1.show()
+point2.show()
 
-p1.move(3, 6)
-p1.show()
+point1.move(5, 7)
+point1.show()
 
-print(f'dist: {p1.dist(p2)}')
+distance = point1.dist(point2)
+print(distance)

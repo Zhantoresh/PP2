@@ -4,21 +4,22 @@ The Square class has an init function which takes a length as argument.
 Both classes have a area function which can print the area of the shape where Shape's area is 0 by default.
 """
 class Shape:
-    def __init__(self, length=0):
-        self.length = length
-        
+    def __init__(self):
+        pass
+
     def area(self):
-        return self.length
+        return 0
 
 class Square(Shape):
-    def __init__(self, length=0):
-        super().__init__(length)
+    def __init__(self, length):
+        super().__init__()
+        self.length = length
 
     def area(self):
         return self.length * self.length
 
-shape = Shape(5)
-print("shape:", shape.area())
+shape = Shape()
+print(shape.area())
 
-square = Square(4)
-print("square:", square.area())
+square = Square(8)
+print(square.area())
