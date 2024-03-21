@@ -13,4 +13,4 @@ def capital_letters(input_string):
 
 cnt = "SplitThisStringAtUppercaseLetters"
 
-print(f"Resulting list: {split_at_uppercase(cnt)}\nResult string: {capital_letters(cnt)}")
+#print(f"Resulting list: {split_at_uppercase(cnt)}\nResult string: {capital_letters(cnt)}")
