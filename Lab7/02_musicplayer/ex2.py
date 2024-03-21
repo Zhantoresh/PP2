@@ -11,7 +11,7 @@ songs = ['ride.mp3','eminem.mp3','maniac.mp3','gorillaz.mp3']
 pygame.mixer.music.load(songs[0])
 pygame.mixer.music.play()
 i = 0
-a = True
+paused = False
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -21,15 +21,17 @@ while True:
                 i = (i + 1) % len(songs)
                 pygame.mixer.music.load(songs[i])
                 pygame.mixer.music.play()
+                paused = False
             elif event.key == pygame.K_LEFT:
                 i = (i - 1) % len(songs)
                 pygame.mixer.music.load(songs[i])
                 pygame.mixer.music.play()
+                paused = False
             elif event.key == pygame.K_SPACE:
-                if a:
-                    pygame.mixer.music.stop()
-                    a = False
+                if not paused:
+                    pygame.mixer.music.pause()
+                    paused = True
                 else:
-                    pygame.mixer.music.play()
-                    a = True
+                    pygame.mixer.music.unpause()
+                    paused = False
     pygame.display.flip()
