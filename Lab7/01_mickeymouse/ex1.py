@@ -30,7 +30,7 @@ while run:
             run = False
 
     time_now = datetime.datetime.now()
-    minute_time = time_now.minute + 10
+    minute_time = time_now.minute 
     second_time = time_now.second
 
   
