@@ -92,12 +92,7 @@ while not done:
             
 
         if event.type == pygame.KEYDOWN: 
-            if event.key == pygame.K_UP:
-                THICKNESS += 1
-
-
-            if event.key == pygame.K_DOWN:
-                THICKNESS -= 1
+            
             
             if event.key == pygame.K_SPACE:
                 mode = "circle"
