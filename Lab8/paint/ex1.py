@@ -77,7 +77,7 @@ while not done:
                     pygame.draw.circle(screen, colordict[color_mode], (prevX,prevY),abs(currX-prevX), THICKNESS)
                 if mode == "eraser":
                     pygame.draw.circle(screen, colorWHITE, (currX,currY), 20)
-                    base_layer.blit(screen, (0,0))
+                    base_layer.blit(screen, (0,0)) #позволяет сохранить изменения после применения ластика
         if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             LMBpressed = False
             currX = event.pos[0]
@@ -88,7 +88,7 @@ while not done:
                 base_layer.blit(screen, (0, 0))
             if mode == "circle":
                 pygame.draw.circle(screen, colordict[color_mode], (prevX,prevY),abs(currX-prevX), THICKNESS)
-                base_layer.blit(screen, (0,0))
+                base_layer.blit(screen, (0,0))#сохраняет предыдущие рисунка на экран base_layer
             
 
         if event.type == pygame.KEYDOWN: 
