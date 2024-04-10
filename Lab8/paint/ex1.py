@@ -55,9 +55,6 @@ done = False
 
 while not done:
 
-    
-    
-
     for event in pygame.event.get():
         if LMBpressed:
             screen.blit(base_layer, (0, 0))
