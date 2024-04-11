@@ -3,7 +3,7 @@
 2)Showing the number of collected coins in the top right corner
 3)Comment your code
 '''
-import pygame, sys, time, random
+import pygame, time, random
 
 pygame.init()
 
@@ -114,7 +114,7 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            sys.exit()
+            
         if event.type == INC_SPEED:
             SPEED += 0.5
     
@@ -147,7 +147,7 @@ while True:
             entity.kill()
         time.sleep(1.5)
         pygame.quit()
-        sys.exit()
+        
     
     #Столкновение с монеткой
     if pygame.sprite.spritecollideany(P1, COIN):
