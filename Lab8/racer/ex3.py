@@ -96,7 +96,7 @@ P1 = Player()
 E1 = Enemy()
 C1 = coin()
 
-#Создания групп по спрайтам
+#Создание групп по спрайтам
 enemies = pygame.sprite.Group()
 enemies.add(E1)
 enemy_and_player = pygame.sprite.Group()
