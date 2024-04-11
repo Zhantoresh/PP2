@@ -1,3 +1,10 @@
+'''
+1)Randomly generating food with different weights
+2)Foods which are disappearing after some time(timer)
+3)Comment your code
+'''
+
+
 import pygame  # Import the Pygame library
 # from color_palette import *  # Import color constants from color_palette module
 import time  # Import the time module for time-related functions

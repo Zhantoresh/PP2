@@ -1,5 +1,14 @@
+'''
+1)Checking for border (wall) collision and whether the snake is leaving the playing area
+2)Generate random position for food, so that it does not fall on a wall or a snake
+3)Add levels. For example, when the snake receives 3-4 foods or depending on score 
+4)Increase speed when the user passes to the next level
+5)Add counter to score and level
+6)Comment your code
+'''
+
 import pygame  # Import the Pygame library
-# from color_palette import *  # Import color constants from color_palette module
+from color_palette import *  # Import color constants from color_palette module
 import time  # Import the time module for time-related functions
 import random  # Import the random module for random number generation
 
@@ -10,23 +19,10 @@ WIDTH = 600
 HEIGHT = 600
 CELL = 30
 
-# Initialize variables for game level, score, snake speed and super food status
+# Initialize variables for game level, score, and snake speed
 level = 1
 score = 0
 snake_speed = 5
-super_food_active = False
-
-#Init colors
-colorWHITE = (255, 255, 255)
-colorRED = (255, 0, 0)
-colorGREEN = (0, 255, 0)
-colorYELLOW = (255, 255, 0)
-colorBLUE = (0, 0, 255)
-colorGRAY = (128, 128, 128)
-colorBLACK = (0, 0, 0)
-
-
-
 
 # Function to draw the grid lines
 def draw_grid():
@@ -79,22 +75,13 @@ class Snake:
         for segment in self.body[1:]:  # Iterate through the body segments
             pygame.draw.rect(screen, colorYELLOW, (segment.x * CELL, segment.y * CELL, CELL, CELL))  # Draw each segment
 
-    def check_collision(self, food, super_food):  # Method to check collision with food
+    def check_collision(self, food):  # Method to check collision with food
         head = self.body[0]  # Get the head of the snake
         if head.x == food.pos.x and head.y == food.pos.y:  # If snake head overlaps with food
             print("Got food!")  # Print message indicating food is eaten
             self.body.append(Point(head.x, head.y))  # Add a new segment to the snake's body
             pygame.display.update()  # Update the display
             food.change_pos()  # Change the position of the food
-        if head.x == super_food.pos.x and head.y == super_food.pos.y:  # If snake head overlaps with food
-            global super_food_active
-            global score
-            print("Got super-food!")  # Print message indicating food is eaten
-            self.body.append(Point(head.x, head.y))  # Add a new segment to the snake's body
-            pygame.display.update()  # Update the display
-            super_food.change_pos()
-            super_food_active = False 
-            score += 2  # Increment the score when super food is eaten
 
 # Define the Food class
 class Food:
@@ -114,27 +101,6 @@ class Food:
 
     def draw(self):  # Method to draw the food on the screen
         pygame.draw.rect(screen, colorRED, (self.pos.x * CELL, self.pos.y * CELL, CELL, CELL))  # Draw the food
-# Define the Super_Food class
-
-class Super_Food(Food): # Inherit from the Food class
-    def __init__(self):  # Initialize super food with a random position
-        self.pos = Point(random.randrange(0, 19), random.randrange(0, 19))  # Random position within grid
-    
-    def generate_new_position(self):  # Method to generate a new position for super food
-        new_pos = Point(random.randrange(0, 19), random.randrange(0, 19))  # Generate a new random position
-        while new_pos in snake.body:  # Keep generating until position is not inside snake's body
-            new_pos = Point(random.randrange(0, 19), random.randrange(0, 19))
-        return new_pos  # Return the valid new position
-    
-    def change_pos(self):  # Method to change super food position
-        global score  # Access the global score variable
-        self.pos = self.generate_new_position()  # Generate a new valid position for super food
-        
-
-    def draw(self):  # Method to draw the super food on the screen
-        pygame.draw.rect(screen, colorBLUE, (self.pos.x * CELL, self.pos.y * CELL, CELL, CELL))  # Draw the super food
-
-
 
 # Create a clock object to control game speed
 clock = pygame.time.Clock()
@@ -142,10 +108,6 @@ clock = pygame.time.Clock()
 # Create instances of Food and Snake classes
 food = Food()  # Initialize food
 snake = Snake()  # Initialize snake
-super_food = Super_Food()
-
-Super_Food_Event  = pygame.USEREVENT + 1
-pygame.time.set_timer(Super_Food_Event, 3000)  #
 
 # Define the font and text for game over message
 font = pygame.font.SysFont("Verdana", 60)
@@ -170,9 +132,6 @@ while not done:  # Continue loop until done is True
             elif event.key == pygame.K_UP and snake.dy != 1:  # Up arrow key
                 snake.dx = 0  # Set direction to move up
                 snake.dy = -1
-        if event.type == Super_Food_Event:
-            super_food_active = True
-            super_food.change_pos()
     
     draw_grid_chess()  # Draw the chessboard grid
 
@@ -189,16 +148,14 @@ while not done:  # Continue loop until done is True
         pygame.display.update()  # Update the display
         time.sleep(2)  # Pause for 2 seconds before exiting
 
-    snake.check_collision(food,super_food)  # Check collision with food
-    if super_food_active:
-        super_food.draw() #
-            
+    snake.check_collision(food)  # Check collision with food
+
     if score > level * 3:  # If score exceeds three times the level
         level += 1  # Increase the level
         snake_speed += 3  # Increase the snake's speed
 
     snake.draw()  # Draw the snake
     food.draw()  # Draw the food
-    
+
     pygame.display.flip()  # Update the entire display
     clock.tick(snake_speed)  # Control game speed based on snake's speed
