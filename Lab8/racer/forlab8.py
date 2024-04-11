@@ -1,5 +1,4 @@
 import pygame
-import sys
 import random
 import time
 from pygame.locals import *
@@ -112,7 +111,7 @@ while True:
             generate_coins()
         if event.type == QUIT:
             pygame.quit()
-            sys.exit()
+            
 
     DISPLAYSURF.blit(background, (0, 0))
     scores = font_small.render(f"Score: {SCORE}", True, BLACK)
@@ -139,7 +138,6 @@ while True:
             entity.kill()
         time.sleep(2)
         pygame.quit()
-        sys.exit()
 
     # Check for collision with coins
     coin_collisions = pygame.sprite.spritecollide(P1, coins, True)
