@@ -106,7 +106,7 @@ COIN = pygame.sprite.Group()
 COIN.add(C1)
 
 
-#Создание посльзовательской очереди событий
+#Создание пользовательской очереди событий
 INC_SPEED = pygame.USEREVENT + 1
 pygame.time.set_timer(INC_SPEED, 1000)
 
