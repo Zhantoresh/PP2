@@ -1,91 +1,166 @@
-import pygame
-import os
-pygame.init()
+import pygame  # Импортирование библиотеки
 
-screen = pygame.display.set_mode((1080, 900))
+pygame.init()  # Инициализация
 
+# Константные переменные
+WIDTH = 800
+HEIGHT = 600
+colorWHITE = (255, 255, 255)
+
+# Создание окна
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+# Создание базового слоя
+base_layer = pygame.Surface((WIDTH, HEIGHT))
+base_layer.fill(colorWHITE)
+screen.fill(colorWHITE)
+pygame.display.set_caption("Paint")
+
+# Создание объекта часов для контроля частоты смены кадров
 clock = pygame.time.Clock()
 
-RED = (230, 0, 0)
-GREEN = (0, 230, 0)
-BLUE = (0, 0, 230)
-WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
-colors = [RED, GREEN, BLUE]
-color = WHITE
+# Логическое значение для отслеживания нажатия левой кнопки мыши
+LMBpressed = False
+THICKNESS = 5  # Thickness of drawing lines
 
-eraser = pygame.image.load('eraser.png')
-eraser = pygame.transform.scale(eraser, (70, 70))
+# Переменные для отслеживания текущего и предыдущего положения мыши
+currX = 0
+currY = 0
 
-def draw_rect(index):
-    pygame.draw.rect(screen, colors[index], (index*40, 0, 40, 40))
+prevX = 0
+prevY = 0
 
-def pick_color():
-    click = pygame.mouse.get_pressed()
-    x, y = pygame.mouse.get_pos()
-    if click[0]:
-        if 0<=x<=40 and 0<=y<=40:
-            return RED
-        elif 40<x<=80 and 0<=y<=40:
-            return GREEN
-        elif 80<x<=120 and 0<=y<=40:
-            return BLUE
-        elif 1010<=x<=1080 and 0<=y<=40:
-            return BLACK
-    return color
+# Режим рисования фигур
+mode = "rectangle"
+color_mode = "red"  # Изначальный цвет 
 
-def painting(color):
-    click = pygame.mouse.get_pressed()
-    x, y = pygame.mouse.get_pos()
-    if click[0] and not (0<=x<=400 and 0<=y<=90):
-        if mode == 'circle':
-            pygame.draw.circle(screen, color, (x, y), 27)
-        if mode == 'rect':
-            pygame.draw.rect(screen, color, (x, y, 40, 40), 4)
-        if mode == 'right_triangle':
-            pygame.draw.polygon(screen, color, ((x, y), (x, y+40), (x+40, y+40)), 3)
-        if mode == 'equal_triangle':
-            pygame.draw.polygon(screen, color, ((x,y), (x+20, y-40), (x+40, y)))
-        if mode == 'rhomb':
-            pygame.draw.polygon(screen, color, ((x, y), (x+20, y-20), (x+40, y), (x+20, y+20)))
+# Функция для вычисления прямоугольника на основе положения мыши
+def calculate_rect(x1, y1, x2, y2):
+    return pygame.Rect(min(x1, x2), min(y1, y2), abs(x1 - x2), abs(y1 - y2))
 
-mode = 'circle'
+# Функция для вычисления вершин равностороннего треугольника
+def calculate_equilateral_triangle(x1, y1, x2, y2):
+    side_length = abs(x2 - x1)  # Calculate side length based on mouse positions
+    height = int(side_length * (3 ** 0.5) / 2)  # Calculate height of equilateral triangle
+    return ((x1, y1), ((x1 + x2) // 2, y1 - height), (x2, y1))  # Return vertices of triangle
 
-while True:
+def draw_rhombus(screen, color, rect):
+    points = [rect.midtop, rect.midright, rect.midbottom, rect.midleft]
+    pygame.draw.polygon(screen, color, points,THICKNESS)  # Draw the rhombus
 
+# Статус игрового цикла
+done = False
+
+# Главный игровой цикл
+while not done:
+
+    # Проверка на события клавиш
+    pressed = pygame.key.get_pressed()
+    shift_held = pressed[pygame.K_LSHIFT] or pressed[pygame.K_RSHIFT]
 
     for event in pygame.event.get():
+        if LMBpressed:
+            screen.blit(base_layer, (0, 0))  # Обновите экран при нажатии левой кнопки мыши
         if event.type == pygame.QUIT:
-            pygame.quit()
+            done = True  # Выход из игрового цикла, если окно закрыто
 
-    
-    for i in range(len(colors)):
-        draw_rect(i)
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            # Запись предыдущего положения мыши при нажатии левой кнопки мыши
+            LMBpressed = True
+            prevX = event.pos[0]
+            prevY = event.pos[1]
 
-    screen.blit(eraser, (1010, 0))
-    rect = pygame.draw.rect(screen, WHITE, (130, 0, 40, 40), 3)
-    circle = pygame.draw.circle(screen, WHITE, (197, 20), 23, 3)
-    right = pygame.draw.polygon(screen, WHITE, ((230, 0), (230, 40), (270, 40)), 3)
-    equal = pygame.draw.polygon(screen, WHITE, ((280, 40), (300, 0), (320, 40)), 3)
-    rhomb = pygame.draw.polygon(screen, WHITE, ((330, 20), (350,0), (370, 20), (350, 40)), 3)
+        if event.type == pygame.MOUSEMOTION:
+            if LMBpressed:
+                # Обновление позиции мыши при движении
+                currX = event.pos[0]
+                currY = event.pos[1]
 
-    pos = pygame.mouse.get_pos()
-    print(mode)
-    if rect.collidepoint(pos):
-        mode = "rect"
-    if circle.collidepoint(pos):
-        mode = "circle"
-    if right.collidepoint(pos):
-        mode = 'right_triangle'
-    if equal.collidepoint(pos):
-        mode = 'equal_triangle'
-    if rhomb.collidepoint(pos):
-        mode = 'rhomb'
+                # Рисование основанное на режим 
+                if mode == "rectangle":
+                    pygame.draw.rect(screen, color_mode, calculate_rect(prevX, prevY, currX, currY), THICKNESS)
+                elif mode == "circle":
+                    pygame.draw.circle(screen, color_mode, (prevX, prevY), abs(currX - prevX), THICKNESS)
+                elif mode == "righttriangle":
+                    pygame.draw.polygon(screen, color_mode, ((prevX, prevY), (prevX, currY), (currX, currY)), THICKNESS)
+                elif mode == "triangle":
+                    pygame.draw.polygon(screen, color_mode, calculate_equilateral_triangle(prevX, prevY, currX, currY), THICKNESS)
+                elif mode == "rhombus":
+                    rect1 = calculate_rect(prevX, prevY, currX, currY)
+                    draw_rhombus(screen, color_mode, rect1)
+                elif mode == "sguare":
+                    # Координаты квадрата
+                    top_left = (min(prevX, currX), min(prevY, currY))
+                    side_length = min(abs(currX - prevX), abs(currY - prevY))
+                    # Рисование квадрата
+                    pygame.draw.rect(screen, color_mode, (top_left[0], top_left[1], side_length, side_length), THICKNESS)
+                elif mode == "eraser":
+                    pygame.draw.circle(screen, (255, 255, 255), (currX, currY), THICKNESS)
+                    base_layer.blit(screen, (0, 0))  # Обновление базового слоя для ластика
+
+        if event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+            # Запись текущей позиции мыши при отпускании 
+            LMBpressed = False
+            currX = event.pos[0]
+            currY = event.pos[1]
+
+            # Рисование в соответствии с выбранным режимом при отпущенной кнопке мыши
+            if mode == "rectangle":
+                pygame.draw.rect(screen, color_mode, calculate_rect(prevX, prevY, currX, currY), THICKNESS)
+                base_layer.blit(screen, (0, 0))  # Обновление базового слоя после рисования
+            elif mode == "circle":
+                pygame.draw.circle(screen, color_mode, (prevX, prevY), abs(currX - prevX), THICKNESS)
+                base_layer.blit(screen, (0, 0))  # Обновление базового слоя после рисования
+            elif mode == "righttriangle":
+                pygame.draw.polygon(screen, color_mode, ((prevX, prevY), (prevX, currY), (currX, currY)), THICKNESS)
+                base_layer.blit(screen, (0, 0))  # Обновление базового слоя после рисования
+            elif mode == "triangle":
+                pygame.draw.polygon(screen, color_mode, calculate_equilateral_triangle(prevX, prevY, currX, currY), THICKNESS)
+                base_layer.blit(screen, (0, 0))  # Обновление базового слоя после рисования
+            elif mode == "rhombus":
+                rect1 = calculate_rect(prevX, prevY, currX, currY)
+                draw_rhombus(screen, color_mode, rect1)
+                base_layer.blit(screen, (0, 0))
+            elif mode == "sguare":
+                # Исчисление координат квадрата
+                top_left = (min(prevX, currX), min(prevY, currY))
+                side_length = min(abs(currX - prevX), abs(currY - prevY))
+                # Рисование квадрата
+                pygame.draw.rect(screen, color_mode, (top_left[0], top_left[1], side_length, side_length), THICKNESS)
+                base_layer.blit(screen, (0, 0)) 
 
 
-    color = pick_color()
-    painting(color)
+        if event.type == pygame.KEYDOWN:
+            # Управление ключевыми событиями 
+            
+            if event.key == pygame.K_ESCAPE:
+                done = True  # Выход при нажатии на ESC
 
+            # Смена режима рисования
+            if event.key == pygame.K_c:
+                mode = "circle"
+            if event.key == pygame.K_r:
+                mode = "rectangle"
+            if event.key == pygame.K_t:
+                mode = "righttriangle"
+            if event.key == pygame.K_v:
+                mode = "triangle"
+            if event.key == pygame.K_h:
+                mode = "rhombus"
+            if event.key == pygame.K_e:
+                mode = "eraser"
+            if event.key == pygame.K_s:
+                mode = "sguare"
 
-    clock.tick(370)
-    pygame.display.update()
+            # Смена цвета для рисования
+            if event.key == pygame.K_r and shift_held:
+                color_mode = "red"
+            if event.key == pygame.K_b and shift_held:
+                color_mode = "blue"
+            if event.key == pygame.K_g and shift_held:
+                color_mode = "green"
+            if event.key == pygame.K_k and shift_held:
+                color_mode = "black"
+            
+
+    pygame.display.flip()  # Обновление дисплея
+    clock.tick(10000000)  # Ограничение частоты кадров, чтобы избежать чрезмерной перегрузки процессора
