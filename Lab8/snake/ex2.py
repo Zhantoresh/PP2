@@ -10,7 +10,7 @@ import pygame, random, time
 from pygame.locals import *
 pygame.init()
 
-#Создание цветов
+#Создание красок
 BLACK = (0,0,0)
 SIZE_BLOCK = 20
 WHITE = (255,255,255)
@@ -36,7 +36,7 @@ screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 courier = pygame.font.SysFont("courier", 36, 1)
 
-#Этот класс помогает нам с упралением и проверками границ
+#Этот класс помогает нам с управлением и проверкой границ
 class SnakeBlock():
     def __init__(self, x, y):
         self.x = x
@@ -48,7 +48,7 @@ class SnakeBlock():
     def __eq__(self, other):
         return isinstance(other, SnakeBlock) and self.x == other.x and self.y == other.y
     
-#Эта функция нам нужна для отрисовки поле игры
+#Эта функция нам нужна для отрисовки поля игры
 def draw_block(color, row, column):
     pygame.draw.rect(screen, color, [SIZE_BLOCK+column*SIZE_BLOCK+column, 
         HEADER_MARGIN+SIZE_BLOCK+row*SIZE_BLOCK+row, SIZE_BLOCK, SIZE_BLOCK])
@@ -103,7 +103,7 @@ while True:
     screen.blit(text_total, (SIZE_BLOCK, SIZE_BLOCK))
     screen.blit(text_speed, (SIZE_BLOCK+230, SIZE_BLOCK))
     
-    #Отрисовка поле в цвета в шахматном порядке
+    #Отрисовка поля в цвета в шахматном порядке
     for row in range(COUNT_BLOCKS):
         for column in range(COUNT_BLOCKS):
             if (row+column)%2==0:
@@ -112,7 +112,7 @@ while True:
                 color = BLUE
             draw_block(color, row, column)
     
-    #Проверка на нахождении змеи на поле        
+    #Проверка на нахождение змеи на поле        
     head = snake_blocks[-1]
     if not head.is_inside():
         
@@ -139,7 +139,7 @@ while True:
         
     new_head = SnakeBlock(head.x + d_row, head.y + d_col)
     
-    #Столкновение змеи с собой
+    #Столкновение змеи с самой собой
     if new_head in snake_blocks:
         
         pygame.mixer.music.stop()
