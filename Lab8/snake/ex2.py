@@ -6,7 +6,7 @@
 5)Add counter to score and level
 6)Comment your code
 '''
-import pygame, sys, random, time
+import pygame, random, time
 from pygame.locals import *
 pygame.init()
 
@@ -76,11 +76,11 @@ while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
-            sys.exit()
+            
         elif event.type == KEYDOWN:
             if event.key == K_ESCAPE:
                 pygame.quit()
-                sys.exit()
+                
             #Само движение
             elif event.key == K_UP and d_col != 0:
                 d_row = -1
@@ -122,7 +122,7 @@ while True:
         pygame.display.update()
         time.sleep(1.5)
         pygame.quit()
-        sys.exit()
+        
     
     #Появление еды и змеи на поле
     draw_block(RED, food.x, food.y)
@@ -148,7 +148,7 @@ while True:
         pygame.display.update()
         time.sleep(1.5)
         pygame.quit()
-        sys.exit()
+        
     
     #Добавление новой головы
     snake_blocks.append(new_head)
