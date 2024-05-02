@@ -2,7 +2,7 @@ import pygame
 import time  
 import random
 import psycopg2 as pgsql
-from sys import exit
+
 connection=pgsql.connect(host="localhost", dbname="lab10", user="postgres",
                          password="Bitchdontkillmyvibe2829", port=5432)
 cur=connection.cursor()
