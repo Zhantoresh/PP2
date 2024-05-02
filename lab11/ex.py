@@ -108,3 +108,37 @@ while True:
 connection.commit()
 cur.close()
 connection.close()
+
+
+'''
+Exercises on SQL:
+1. 
+
+
+SELECT * FROM adamdar WHERE name LIKE 'Bir%';
+
+SELECT * FROM adamdar WHERE surname LIKE 'O%';
+
+SELECT * FROM adamdar WHERE t_number = 111111;
+
+
+
+2.
+IF (SELECT * FROM phonebookv2 WHERE surname = 'Orynbasar')
+BEGIN
+    -- Если пользователь существует, обновляем данные пользователя
+    UPDATE phonebookv2
+    SET name = 'Bakhyt', number = 999999
+    WHERE surname = 'Orynbasar';
+END
+ELSE
+BEGIN
+    -- Если пользователь не существует, добавляем нового пользователя
+    INSERT INTO phonebookv2 (surname, name, t_number)
+    VALUES ('Absattar', 'Akniet', 888888);
+END
+
+
+5.
+DELETE FROM phonebookv2 WHERE name = 'Birzhan' or number = 222222;
+'''
