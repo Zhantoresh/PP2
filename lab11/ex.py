@@ -140,5 +140,5 @@ END
 
 
 5.
-DELETE FROM phonebookv2 WHERE name = 'Birzhan' or number = 222222;
+DELETE FROM phonebookv2 WHERE name = 'Birzhan';
 '''
